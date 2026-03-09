@@ -1,4 +1,4 @@
-# AlphaForecast AI 3.13 Elite UI Refresh
+# AlphaForecast AI
 
 Forecasting bursátil con Python 3.13, Flask y ensemble de modelos tree-based. Esta edición incluye una capa visual más premium con dashboard glassmorphism, temas de color, microanimaciones, plots oscuros integrados con la paleta y una vista de resultados más limpia para demos y portfolio.
 
