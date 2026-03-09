@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlphaForecastAI | {{ result.ticker }} Forecast Report</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body data-theme="aurora">
+  <div class="page-shell">
+    <header class="topbar" data-reveal>
+      <div class="brand">
+        <div class="brand-mark">AF</div>
+        <div class="brand-copy">
+          <strong>AlphaForecastAI</strong>
+          <span>{{ result.ticker }} Forecast Report</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <div class="theme-switcher" aria-label="Selector de acento visual">
+          <button type="button" class="theme-chip" data-theme-choice="aurora">Aurora</button>
+          <button type="button" class="theme-chip" data-theme-choice="magenta">Neon</button>
+          <button type="button" class="theme-chip" data-theme-choice="emerald">Emerald</button>
+        </div>
+        <a href="/" class="ghost-btn">New run</a>
+      </div>
+    </header>
+
+    <section class="hero card" data-reveal>
+      <div class="hero-main">
+        <p class="eyebrow">AlphaForecastAI • {{ result.ticker }} • Last close {{ '%.2f'|format(result.last_close) }}</p>
+        <h1>{{ result.ticker }} Forecast Report</h1>
+        <p class="subtitle">{{ result.explanation }}</p>
+        <div class="badge-grid">
+          <span class="pill">Lookback {{ result.lookback }}</span>
+          <span class="pill">Horizon {{ result.horizon }} days</span>
+          <span class="pill">Train {{ result.train_samples }}</span>
+          <span class="pill">Valid {{ result.val_samples }}</span>
+          <span class="pill">Test {{ result.test_samples }}</span>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stats-grid">
+          <div class="small-stat"><span>MAPE 1D</span><strong>{{ metrics['MAPE 1D'] }}</strong></div>
+          <div class="small-stat"><span>R² 1D</span><strong>{{ metrics['R² 1D'] }}</strong></div>
+          <div class="small-stat"><span>MAPE {{ result.horizon }}D</span><strong>{{ metrics['MAPE ' ~ result.horizon ~ 'D'] }}</strong></div>
+          <div class="small-stat"><span>Direction H2</span><strong>{{ metrics['Directional Acc. H2'] }}</strong></div>
+        </div>
+        <p class="meta-note">
+          El reporte integra precisión de niveles, estabilidad del backtest e incertidumbre estimada
+          sobre el horizonte de proyección seleccionado.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid-2" data-reveal>
+      <div class="card">
+        <div class="section-header">
+          <div>
+            <h3>Performance Summary</h3>
+            <p>Resumen ejecutivo del backtest en el conjunto de prueba.</p>
+          </div>
+        </div>
+        <div class="metric-grid">
+          {% for key, value in metrics.items() %}
+          <div class="metric-item">
+            <span>{{ key }}</span>
+            <strong>{{ value }}</strong>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div>
+            <h3>Ensemble Composition</h3>
+            <p>Peso relativo de cada familia de modelos e interpretación de la señal proyectada.</p>
+          </div>
+        </div>
+        <div class="insight-grid">
+          {% for key, value in weights.items() %}
+          <div class="insight-item">
+            <span>{{ key }}</span>
+            <strong>{{ value }}</strong>
+            <small>Contribución relativa dentro de la combinación final del modelo.</small>
+          </div>
+          {% endfor %}
+          <div class="insight-item">
+            <span>Signal</span>
+            <strong>{{ result.headline }}</strong>
+            <small>Resumen derivado del movimiento acumulado estimado al horizonte seleccionado.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-reveal>
+      <div class="section-header">
+        <div>
+          <h3>Temporal Backtest</h3>
+          <p>
+            Comparación a 1 día adelante sobre datos no utilizados en entrenamiento,
+            orientada a evaluar ajuste estructural entre la serie real y la serie estimada.
+          </p>
+        </div>
+      </div>
+      <div class="plot-frame">
+        <img src="{{ url_for('static', filename=result.plot_paths.backtest) }}" alt="Backtest" class="plot-img" />
+      </div>
+    </section>
+
+    <section class="card" data-reveal>
+      <div class="section-header">
+        <div>
+          <h3>Forward Projection</h3>
+          <p>
+            Proyección multi-step con bandas de incertidumbre al 80% y 95%,
+            integrada dentro de la lectura visual general del dashboard.
+          </p>
+        </div>
+      </div>
+      <div class="plot-frame">
+        <img src="{{ url_for('static', filename=result.plot_paths.forecast) }}" alt="Forecast" class="plot-img" />
+      </div>
+    </section>
+
+    <section class="grid-2" data-reveal>
+      <div class="card">
+        <div class="section-header">
+          <div>
+            <h3>Model Weights</h3>
+            <p>Distribución relativa del ensemble según desempeño observado en validación temporal.</p>
+          </div>
+        </div>
+        <div class="plot-frame">
+          <img src="{{ url_for('static', filename=result.plot_paths.weights) }}" alt="Weights" class="plot-img" />
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-header">
+          <div>
+            <h3>Feature Influence</h3>
+            <p>Variables con mayor impacto relativo dentro de la señal estimada por el modelo.</p>
+          </div>
+        </div>
+        <div class="plot-frame">
+          <img src="{{ url_for('static', filename=result.plot_paths.feature_importance) }}" alt="Features" class="plot-img" />
+        </div>
+      </div>
+    </section>
+
+    <section class="card" data-reveal>
+      <div class="section-header">
+        <div>
+          <h3>Forecast Table</h3>
+          <p>Escenario base y rangos de incertidumbre para cada día hábil proyectado.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Pred. Close</th>
+              <th>Retorno est.</th>
+              <th>Low 80%</th>
+              <th>High 80%</th>
+              <th>Low 95%</th>
+              <th>High 95%</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in future_rows %}
+            <tr>
+              <td>{{ row.date }}</td>
+              <td>{{ row.predicted_close }}</td>
+              <td>{{ row.predicted_return }}</td>
+              <td>{{ row.lower80 }}</td>
+              <td>{{ row.upper80 }}</td>
+              <td>{{ row.lower95 }}</td>
+              <td>{{ row.upper95 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" data-reveal>
+      <div class="section-header">
+        <div>
+          <h3>Top Features</h3>
+          <p>Resumen de variables con mayor relevancia cuantitativa en la estimación.</p>
+        </div>
+      </div>
+      <div class="table-wrap compact">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Importancia</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for name, score in feature_rows %}
+            <tr>
+              <td>{{ name }}</td>
+              <td>{{ score }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="actions-row" data-reveal>
+      <a href="/" class="secondary-btn">Run another forecast</a>
+    </div>
+    <p class="footer-note" data-reveal>AlphaForecastAI genera señal cuantitativa experimental. No constituye recomendación de inversión.</p>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlphaForecastAI | Financial Forecasting Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body data-theme="aurora">
+  <div class="page-shell">
+    <header class="topbar" data-reveal>
+      <div class="brand">
+        <div class="brand-mark">AF</div>
+        <div class="brand-copy">
+          <strong>AlphaForecastAI</strong>
+          <span>Financial Forecasting Dashboard for Python 3.13</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <div class="theme-switcher" aria-label="Selector de acento visual">
+          <button type="button" class="theme-chip" data-theme-choice="aurora">Aurora</button>
+          <button type="button" class="theme-chip" data-theme-choice="magenta">Neon</button>
+          <button type="button" class="theme-chip" data-theme-choice="emerald">Emerald</button>
+        </div>
+        <span class="status-dot"></span>
+        <span class="muted-inline">Forecast workspace</span>
+      </div>
+    </header>
+
+    <section class="hero card" data-reveal>
+      <div class="hero-main">
+        <p class="eyebrow">AlphaForecastAI • Python 3.13 • Ensemble Machine Learning</p>
+        <h1>AlphaForecastAI</h1>
+        <p class="subtitle">
+          Financial forecasting dashboard built for market trend estimation, temporal backtesting,
+          direct multi-step projection, uncertainty bands, and feature-driven model interpretation.
+        </p>
+        <div class="badge-grid">
+          <span class="pill">Scikit-learn</span>
+          <span class="pill">Temporal backtesting</span>
+          <span class="pill">Multi-step forecast</span>
+          <span class="pill">Feature importance</span>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stats-grid">
+          <div class="small-stat"><span>Interface</span><strong>Interactive dashboard</strong></div>
+          <div class="small-stat"><span>Model family</span><strong>Ensemble ML</strong></div>
+          <div class="small-stat"><span>Runtime</span><strong>Python 3.13</strong></div>
+          <div class="small-stat"><span>Output</span><strong>Quantitative forecast</strong></div>
+        </div>
+        <p class="meta-note">
+          Configura ticker, ventana histórica y horizonte de proyección para generar un panel con métricas,
+          visualización estructurada y lectura cuantitativa del comportamiento esperado.
+        </p>
+      </div>
+    </section>
+
+    <section class="card form-card" data-reveal>
+      <div class="section-header">
+        <div>
+          <h3>Forecast Configuration</h3>
+          <p>Usa AAPL, NVDA o MSFT como punto de partida para validar tiempos, métricas y visualización.</p>
+        </div>
+      </div>
+
+      <form method="post" action="/forecast">
+        <div class="grid-3 controls-grid">
+          <label>
+            <span>Ticker</span>
+            <input type="text" name="ticker" placeholder="AAPL, NVDA, MSFT" value="AAPL" required />
+          </label>
+          <label>
+            <span>Lookback Window (20-180)</span>
+            <input type="number" name="lookback" min="20" max="180" value="60" required />
+          </label>
+          <label>
+            <span>Forecast Horizon (3-30 business days)</span>
+            <input type="number" name="horizon" min="3" max="30" value="10" required />
+          </label>
+        </div>
+        <div class="actions-row" style="justify-content:flex-start; margin-top: 8px;">
+          <button type="submit">Run forecast dashboard</button>
+        </div>
+      </form>
+    </section>
+
+    {% if error %}
+    <section class="card error-card" data-reveal>
+      <h3>Execution Error</h3>
+      <p>{{ error }}</p>
+      <pre>{{ trace }}</pre>
+    </section>
+    {% endif %}
+
+    <section class="grid-2" data-reveal>
+      <div class="card">
+        <div class="section-header">
+          <div>
+            <h3>System Overview</h3>
+            <p>Componentes principales del pipeline cuantitativo.</p>
+          </div>
+        </div>
+        <div class="notes-list">
+          <div class="note-item"><i>1</i><div><strong>Direct multi-step forecast</strong><p>Predicción sobre múltiples pasos orientada a mantener consistencia a lo largo del horizonte proyectado.</p></div></div>
+          <div class="note-item"><i>2</i><div><strong>Market features</strong><p>OHLCV, RSI, MACD, volatilidad, momentum y estadísticas de ventana para enriquecer la señal del modelo.</p></div></div>
+          <div class="note-item"><i>3</i><div><strong>Temporal validation</strong><p>Separación cronológica para evaluar ajuste y generalización sobre datos fuera del tramo de entrenamiento.</p></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-header">
+          <div>
+            <h3>Interpretation Scope</h3>
+            <p>Alcance analítico y límites del modelo en un entorno de mercado volátil.</p>
+          </div>
+        </div>
+        <div class="notes-list">
+          <div class="note-item"><i>✓</i><div><strong>Quantitative scenarios</strong><p>Permite estimar rangos, sesgos y comportamiento esperado bajo información histórica y variables técnicas.</p></div></div>
+          <div class="note-item"><i>!</i><div><strong>Market uncertainty</strong><p>Noticias, eventos macroeconómicos y shocks exógenos pueden alterar de forma abrupta la trayectoria esperada.</p></div></div>
+          <div class="note-item"><i>∞</i><div><strong>Executive readability</strong><p>La salida prioriza visualización consistente, métricas clave e interpretación compacta del escenario proyectado.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note" data-reveal>AlphaForecastAI genera señal cuantitativa experimental. No constituye recomendación de inversión.</p>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
