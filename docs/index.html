@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlphaForecast AI</title>
+<style>
+  :root{
+    --bg:#0b0e14; --bg2:#11151f; --card:#161b26; --border:#242b3a;
+    --text:#e6e9f0; --muted:#9aa4b8; --accent:#8b7cf6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+  .wrap{max-width:920px;margin:0 auto;padding:56px 24px 80px}
+  header{margin-bottom:32px}
+  h1{font-size:2.1rem;margin:0 0 8px}
+  .tagline{color:var(--muted);font-size:1.05rem;margin:0 0 16px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+  .badge{background:var(--bg2);border:1px solid var(--border);color:var(--accent);padding:4px 10px;border-radius:999px;font-size:.8rem}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .cta{display:inline-block;margin-top:8px;padding:10px 18px;border:1px solid var(--accent);border-radius:8px;color:var(--accent)}
+  section{margin:40px 0}
+  h2{font-size:1.3rem;border-left:3px solid var(--accent);padding-left:10px;margin-bottom:16px}
+  ul{padding-left:20px;color:var(--muted)}
+  li{margin-bottom:6px}
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .shots figure{margin:0;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .shots img{width:100%;display:block;background:#fff}
+  figcaption{padding:10px 14px;color:var(--muted);font-size:.85rem}
+  .note{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;color:var(--muted);font-size:.9rem}
+  footer{margin-top:60px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border);padding-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="badges">
+      <span class="badge">Python 3.13</span>
+      <span class="badge">Flask</span>
+      <span class="badge">Ensemble tree-based</span>
+    </div>
+    <h1>AlphaForecast AI</h1>
+    <p class="tagline">Forecasting bursátil con ensemble de modelos tree-based: backtest temporal real, bandas de incertidumbre y feature importance.</p>
+    <a class="cta" href="https://github.com/miixkyy2611/AlphaForecastAI" target="_blank" rel="noopener">Ver código en GitHub →</a>
+  </header>
+
+  <section>
+    <h2>Qué trae</h2>
+    <ul>
+      <li>Forecast multi-step directo sin TensorFlow</li>
+      <li>Backtest temporal real</li>
+      <li>Bandas de incertidumbre 80% y 95%</li>
+      <li>Feature importance y pesos del ensemble</li>
+      <li>Dashboard con tema oscuro y selector de tema local</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Resultados</h2>
+    <div class="shots">
+      <figure>
+        <img src="images/forecast_plot.png" alt="Forecast multi-step">
+        <figcaption>Forecast multi-step</figcaption>
+      </figure>
+      <figure>
+        <img src="images/backtest_plot.png" alt="Backtest temporal">
+        <figcaption>Backtest temporal</figcaption>
+      </figure>
+      <figure>
+        <img src="images/feature_importance_plot.png" alt="Feature importance">
+        <figcaption>Feature importance</figcaption>
+      </figure>
+      <figure>
+        <img src="images/weights_plot.png" alt="Pesos del ensemble">
+        <figcaption>Pesos del ensemble</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Stack</h2>
+    <ul>
+      <li>Python 3.13 + Flask para el backend</li>
+      <li>Ensemble de modelos tree-based para el forecast</li>
+      <li>Frontend con dashboard glassmorphism y plots integrados a la paleta</li>
+    </ul>
+  </section>
+
+  <div class="note">Herramienta experimental de forecasting cuantitativo. No constituye recomendación de inversión.</div>
+
+  <footer>
+    Proyecto de Miguel Martínez · <a href="https://github.com/miixkyy2611/AlphaForecastAI" target="_blank" rel="noopener">código completo en GitHub</a>
+  </footer>
+</div>
+</body>
+</html>
